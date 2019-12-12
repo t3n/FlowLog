@@ -1,0 +1,8 @@
+Neos:
+  Flow:
+    log:
+      throwables:
+        storageClass: t3n\FlowLog\ThrowableStorage\ConsoleStorage
+        optionsByImplementation:
+          't3n\FlowLog\ThrowableStorage\ConsoleStorage':
+            streamName: 'stdout'
