@@ -1,9 +1,9 @@
 {
-    "description": "Adds logger classes to your flow project",
+    "description": "Small package that provides several Logger for the Flow Framework",
     "type": "neos-package",
     "name": "t3n/flow-log",
     "require": {
-        "neos/flow": "~6.0",
+        "neos/flow": "~6.0"
     },
     "autoload": {
         "psr-4": {
