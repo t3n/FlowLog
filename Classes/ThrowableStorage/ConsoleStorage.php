@@ -45,7 +45,7 @@ class ConsoleStorage implements ThrowableStorageInterface
         }
     }
 
-    public function logThrowable(\Throwable $throwable, array $additionalData = []): void
+    public function logThrowable(\Throwable $throwable, array $additionalData = []): string
     {
         $data = [
             'eventTime' => (new \DateTime('now'))->format(DATE_RFC3339),
@@ -69,6 +69,8 @@ class ConsoleStorage implements ThrowableStorageInterface
         if (is_resource($this->streamHandle)) {
             fputs($this->streamHandle, $output . PHP_EOL);
         }
+
+        return $output;
     }
 
     private static function getFunctionNameForTrace(?array $trace = null)
