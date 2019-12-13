@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace t3n\FlowLog\ThrowableStorage;
 
+use Neos\Flow\Configuration\ConfigurationManager;
 use Neos\Flow\Core\Bootstrap;
 use Neos\Flow\Http\HttpRequestHandlerInterface;
 use Neos\Flow\Log\Exception\CouldNotOpenResourceException;
@@ -47,12 +48,15 @@ class ConsoleStorage implements ThrowableStorageInterface
 
     public function logThrowable(\Throwable $throwable, array $additionalData = []): string
     {
+        $bootstrap = Bootstrap::$staticObjectManager->get(Bootstrap::class);
+        /** @var ConfigurationManager $configurationManager */
+        $configurationManager = $bootstrap->getEarlyInstance(ConfigurationManager::class);
+
+        $serviceContext = $configurationManager->getConfiguration(ConfigurationManager::CONFIGURATION_TYPE_SETTINGS, 't3n.FlowLog.serviceContext');
+
         $data = [
             'eventTime' => (new \DateTime('now'))->format(DATE_RFC3339),
-            'serviceContext' => [
-                'service' => 'test',
-                'version' => '1.0',
-            ],
+            'serviceContext' => $serviceContext,
             'message' => sprintf('PHP Warning: %s' . PHP_EOL . 'Stack trace:' . PHP_EOL . '%s', $throwable->getMessage(), $throwable->getTraceAsString()),
             'context' => [
                 'httpRequest' => $this->getHttpRequestContext(),

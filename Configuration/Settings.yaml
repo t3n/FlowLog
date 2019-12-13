@@ -1,8 +1,7 @@
-Neos:
-  Flow:
-    log:
-      throwables:
-        storageClass: t3n\FlowLog\ThrowableStorage\ConsoleStorage
-        optionsByImplementation:
-          't3n\FlowLog\ThrowableStorage\ConsoleStorage':
-            streamName: 'stderr'
+t3n:
+  FlowLog:
+    serviceContext:
+      service: 'flow-app'
+      version: 'master'
+
+
