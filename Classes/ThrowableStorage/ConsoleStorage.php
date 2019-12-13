@@ -23,6 +23,9 @@ class ConsoleStorage implements ThrowableStorageInterface
      */
     protected $streamHandle;
 
+    /**
+     * @param mixed[] $options
+     */
     public static function createWithOptions(array $options): ThrowableStorageInterface
     {
         if (! array_key_exists('streamName', $options)) {
@@ -46,6 +49,9 @@ class ConsoleStorage implements ThrowableStorageInterface
         }
     }
 
+    /**
+     * @param mixed[] $additionalData
+     */
     public function logThrowable(\Throwable $throwable, array $additionalData = []): string
     {
         $bootstrap = Bootstrap::$staticObjectManager->get(Bootstrap::class);
@@ -71,13 +77,16 @@ class ConsoleStorage implements ThrowableStorageInterface
         $output = json_encode($data);
 
         if (is_resource($this->streamHandle)) {
-            fputs($this->streamHandle, $output . PHP_EOL);
+            fwrite($this->streamHandle, $output . PHP_EOL);
         }
 
         return $output;
     }
 
-    private static function getFunctionNameForTrace(?array $trace = null)
+    /**
+     * @param mixed[]|null $trace
+     */
+    private static function getFunctionNameForTrace(?array $trace = null): string
     {
         if ($trace === null) {
             return '<unknown function>';
@@ -95,6 +104,9 @@ class ConsoleStorage implements ThrowableStorageInterface
         return implode('', array_reverse($functionName));
     }
 
+    /**
+     * @return mixed[]
+     */
     public function getHttpRequestContext(): array
     {
         if (! (Bootstrap::$staticObjectManager instanceof ObjectManagerInterface)) {
