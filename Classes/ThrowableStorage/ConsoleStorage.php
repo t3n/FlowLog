@@ -13,10 +13,6 @@ use Neos\Flow\ObjectManagement\ObjectManagerInterface;
 
 class ConsoleStorage implements ThrowableStorageInterface
 {
-    /**
-     * @var string
-     */
-    protected $streamName;
 
     /**
      * @var false|resource
