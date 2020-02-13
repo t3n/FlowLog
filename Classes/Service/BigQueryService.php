@@ -53,11 +53,11 @@ class BigQueryService
             'schema' => $this->settings['tableSchema'],
             'timePartitioning' => [
                 'type' => 'DAY',
-                'field' => 'date'
-            ]
+                'field' => 'date',
+            ],
         ];
 
-        if (!empty($this->settings['expirationMs'])) {
+        if (! empty($this->settings['expirationMs'])) {
             $options['timePartitioning']['expirationMs'] = $this->settings['expirationMs'];
         }
 
