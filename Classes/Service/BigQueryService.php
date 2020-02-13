@@ -10,6 +10,9 @@ use Google\Cloud\BigQuery\Table;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Exception;
 
+/**
+ * @Flow\Scope("singleton")
+ */
 class BigQueryService
 {
     /**

@@ -12,7 +12,6 @@ use t3n\FlowLog\Service\BigQueryService;
 class BigQueryLogger extends AbstractBackend
 {
     /**
-     * @Flow\Inject
      *
      * @var BigQueryService
      */
