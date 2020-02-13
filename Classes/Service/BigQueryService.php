@@ -27,7 +27,7 @@ class BigQueryService
      */
     protected $bigQueryClient;
 
-    public function getClient(): BigQueryClient
+    protected function getClient(): BigQueryClient
     {
         if ($this->settings['keyFilePath'] === null || $this->settings['dataset'] === null || $this->settings['table'] === null) {
             throw new Exception('BigQueryLogger is not correctly configured. Make sure to set keyFilePath, dataset and table.');
