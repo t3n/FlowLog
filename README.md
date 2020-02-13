@@ -24,35 +24,35 @@ Neos:
 
 The StreamName could either be `stderr` or `stdout`.
 
-You can also set the ServiceContext that is used by StackDriver:
-```yaml
-t3n:
-  FlowLog:
-    serviceContext:
-      service: 'flow-app'
-      version: 'master'
+## BigQueryLogger 
 
-```
+The BigQueryLogger is an `AbstractBackend` so that you can use it like an normal Logger like `FileBackend`. If you want to log into BigQuery, here is your 3 Step manual:
 
-## BigQueryLogger
+- configure BigQuery (dataset, table, keyFile)
+- create a `BigQueryLogger` via `PsrLoggerFactory`
+- map your custom `BigQueryLogger` via `Objects.yaml` to actually use it
 
+### 1) Configure BigQueryLogger
 
-
-To enable the BigQueryLogger you have to define the dataset, table and googleKey.json to authenticate. The settings should look like this:
 
 ```yaml
 t3n:
   FlowLog:
     bigQuery:
-      dataset: ''t3n_flowlog'
-      table: 'application_xy'
+      dataset: 't3n_flowlog'
+      table: 'application_log'
+      expirationMs: '7776000000' # 90 days
       keyFilePath: '/path/to/google/key.json'
 
 ```
 
-Important: the BigQueryLogger expects that your `serviceContext` is set (service and version).
+ℹ️ All logs will be written into a partitioned table in BigQuery. This means that you have a "overall" table with multiple tables for each day. This day-tables can be deleted automatically via `expirationMs`. If you want to store your logs forever just ignore this Setting and let it blank.
 
-After that you can add as much logger as you like like this:
+### 2) Create your own Instance of BigQueryLogger
+
+To actually use the BigQueryLogger you have to define your own in your `Settings.yaml`. The important part is `loggerName` ("applicationXyImportLogger") and the internal Name `bigQueryLogger`.
+
+`bigQueryLogger` will be used in Step 3, `loggerName` is the actual name for the BigQueryTable (inserted for each row).
 
 ```yaml
 Neos:
@@ -67,4 +67,54 @@ Neos:
                 loggerName: 'applicationXyImportLogger'
 ```
 
-As you can see you have to define the option `loggerName` for each BigQueryLogger, which will end in the BigQuery table where you can query your different loggers.
+You can create as many loggers as you want. This is really usefull if you want to "split" your logs in your BigQueryTable. E.g. one Logger for Imports, one for User-Requests, etc.
+
+### 3) Map your BigQueryLogger via Objects.yaml
+
+Last but not least you have to define your Logging-Factory to use your BigQueryLogger.
+
+Therefore edit your `Objects.yaml` like this:
+
+```yaml
+t3n\FlowLog\Command\ExampleCommandController: # <- adjust
+  properties:
+    logger:
+      object:
+        factoryObjectName: Neos\Flow\Log\PsrLoggerFactoryInterface
+        factoryMethodName: get
+        arguments:
+          1:
+            value: bigQueryLogger
+
+```
+
+Now you are able to use it:
+
+```php
+/**
+ * @var Neos\Flow\Log\Psr\Logger
+ */
+protected $logger;
+
+....
+
+$this->logger->log(LogLevel::INFO, 'First log entry.', ['test' => true]);
+
+```
+
+![First entry in BigQuery - example](docs/bigquery_example.png 'First entry in BigQuery - example.')
+
+
+## ServiceContext
+
+ℹ️ Important if you want to log multiple applications/environments (e.g.) in BigQuery.
+
+You should also set the ServiceContext that is used by StackDriver and BigQueryLogger:
+```yaml
+t3n:
+  FlowLog:
+    serviceContext:
+      service: 'flow-app'
+      version: 'master'
+
+```
