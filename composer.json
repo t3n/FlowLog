@@ -3,7 +3,8 @@
     "type": "neos-package",
     "name": "t3n/flow-log",
     "require": {
-        "neos/flow": "^5.0 || ^6.0"
+        "neos/flow": "^5.0 || ^6.0",
+        "google/cloud-bigquery": "1.13.*"
     },
     "autoload": {
         "psr-4": {

@@ -1,0 +1,4 @@
+t3n\FlowLog\Backend\BigQueryLogger:
+  properties:
+    bigQueryService:
+      object: t3n\FlowLog\Service\BigQueryService
