@@ -33,3 +33,36 @@ t3n:
       version: 'master'
 
 ```
+
+## BigQueryLogger
+
+To enable the BigQueryLogger you have to define the dataset, table and googleKey.json to authenticate. The settings should look like this:
+
+```yaml
+t3n:
+  FlowLog:
+    bigQuery:
+      dataset: ''t3n_flowlog'
+      table: 'application_xy'
+      keyFilePath: '/path/to/google/key.json'
+
+```
+
+Important: the BigQueryLogger expects that your `serviceContext` is set (service and version).
+
+After that you can add as much logger as you like like this:
+
+```yaml
+Neos:
+  Flow:
+    log:
+      psr3:
+        'Neos\Flow\Log\PsrLoggerFactory':
+          bigQueryLogger:
+            default:
+              class: 't3n\FlowLog\Backend\BigQueryLogger'
+              options:
+                loggerName: 'applicationXyImportLogger'
+```
+
+As you can see you have to define the option `loggerName` for each BigQueryLogger, which will end in the BigQuery table where you can query your different loggers.

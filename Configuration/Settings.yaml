@@ -4,17 +4,6 @@ t3n:
       service: 'flow-app'
       version: 'master'
     bigQuery:
-      dataset: 't3n_flowlog'
-      table: 'application_xy'
-      keyFilePath: '/path/to/google/key.json'
-
-Neos:
-  Flow:
-    log:
-      psr3:
-        'Neos\Flow\Log\PsrLoggerFactory':
-          bigQueryLogger:
-            default:
-              class: 't3n\FlowLog\Backend\BigQueryLogger'
-              options:
-                loggerName: 'applicationXyImportLogger'
+      dataset: ''
+      table: ''
+      keyFilePath: ''
