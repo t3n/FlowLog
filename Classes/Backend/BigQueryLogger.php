@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace t3n\FlowLog\Backend;
 
 use Google\Cloud\BigQuery\Date;
-use Google\Cloud\BigQuery\Time;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Log\Backend\AbstractBackend;
 use t3n\FlowLog\Service\BigQueryService;

@@ -10,9 +10,6 @@ use Google\Cloud\BigQuery\Table;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Exception;
 
-/**
- * @Flow\Scope("singleton")
- */
 class BigQueryService
 {
     /**
@@ -29,7 +26,7 @@ class BigQueryService
 
     protected function getClient(): BigQueryClient
     {
-        if ($this->settings['keyFilePath'] === null || $this->settings['dataset'] === null || $this->settings['table'] === null) {
+        if (empty($this->settings['keyFilePath']) || empty($this->settings['dataset']) || empty($this->settings['table'])) {
             throw new Exception('BigQueryLogger is not correctly configured. Make sure to set keyFilePath, dataset and table.');
         }
 
@@ -49,68 +46,29 @@ class BigQueryService
             return $dataset->table($tableId);
         }
 
-        return $dataset->createTable($tableId, [
-            'schema' => $this->getTableSchema(),
+        $options = [
+            'schema' => $this->settings['tableSchema'],
             'timePartitioning' => [
                 'type' => 'DAY',
-                'expirationMS' => '7776000000',
                 'field' => 'date'
-            ],
-        ]);
+            ]
+        ];
+
+        if (!empty($this->settings['expirationMs'])) {
+            $options['timePartitioning']['expirationMs'] = $this->settings['expirationMs'];
+        }
+
+        $table = $dataset->createTable($tableId, $options);
+
+        if (! $table instanceof Table) {
+            throw new Exception('BigQuery Table could not be created.');
+        }
+
+        return $table;
     }
 
     protected function getDataset(): Dataset
     {
         return $this->getClient()->dataset($this->settings['dataset']);
-    }
-
-    /**
-     * @return mixed[]
-     */
-    protected function getTableSchema(): array
-    {
-        return [
-            'fields' => [
-                [
-                    'name' => 'loggerName',
-                    'type' => 'string',
-                    'mode' => 'required',
-                ],
-                [
-                    'name' => 'service',
-                    'type' => 'string',
-                    'mode' => 'required',
-                ],
-                [
-                    'name' => 'version',
-                    'type' => 'string',
-                    'mode' => 'required',
-                ],
-                [
-                    'name' => 'severity',
-                    'type' => 'string',
-                    'mode' => 'required',
-                ],
-                [
-                    'name' => 'message',
-                    'type' => 'string',
-                    'mode' => 'required',
-                ],
-                [
-                    'name' => 'additionalData',
-                    'type' => 'string',
-                ],
-                [
-                    'name' => 'date',
-                    'type' => 'date',
-                    'mode' => 'required',
-                ],
-                [
-                    'name' => 'datetime',
-                    'type' => 'datetime',
-                    'mode' => 'required',
-                ]
-            ],
-        ];
     }
 }

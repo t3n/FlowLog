@@ -6,4 +6,49 @@ t3n:
     bigQuery:
       dataset: ''
       table: ''
+      expirationMs: '7776000000'
       keyFilePath: ''
+      tableSchema:
+        fields:
+          0:
+            name: 'loggerName'
+            type: 'string'
+            mode: 'required'
+          1:
+            name: 'service'
+            type: 'string'
+            mode: 'required'
+          2:
+            name: 'version'
+            type: 'string'
+            mode: 'required'
+          3:
+            name: 'severity'
+            type: 'string'
+            mode: 'required'
+          4:
+            name: 'message'
+            type: 'string'
+            mode: 'required'
+          5:
+            name: 'additionalData'
+            type: 'string'
+          6:
+            name: 'date'
+            type: 'date'
+            mode: 'required'
+          7:
+            name: 'datetime'
+            type: 'datetime'
+            mode: 'required'
+
+Neos:
+  Flow:
+    log:
+      psr3:
+        'Neos\Flow\Log\PsrLoggerFactory':
+          bigQueryLogger:
+            default:
+              class: 't3n\FlowLog\Backend\BigQueryLogger'
+              options:
+                loggerName: 'bigQueryLogger'

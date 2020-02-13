@@ -36,6 +36,8 @@ t3n:
 
 ## BigQueryLogger
 
+
+
 To enable the BigQueryLogger you have to define the dataset, table and googleKey.json to authenticate. The settings should look like this:
 
 ```yaml
