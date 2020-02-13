@@ -21,7 +21,7 @@ class BigQueryLogger extends AbstractBackend
     /**
      * @Flow\InjectConfiguration(package="t3n.FlowLog.serviceContext")
      *
-     * @var array
+     * @var mixed[]
      */
     protected $serviceContext;
 
@@ -35,6 +35,9 @@ class BigQueryLogger extends AbstractBackend
         $this->bigQueryService->getTable();
     }
 
+    /**
+     * @param mixed $additionalData A variable containing more information about the event to be logged
+     */
     public function append(string $message, int $severity = LOG_INFO, $additionalData = [], ?string $packageKey = null, ?string $className = null, ?string $methodName = null): void
     {
         if ($packageKey !== null) {

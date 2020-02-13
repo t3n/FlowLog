@@ -6,7 +6,7 @@ t3n:
     bigQuery:
       dataset: ''
       table: ''
-      expirationMs: '7776000000'
+      expirationMs: '7776000000' # 90 days
       keyFilePath: ''
       tableSchema:
         fields:

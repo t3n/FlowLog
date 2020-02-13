@@ -13,7 +13,6 @@ use Neos\Flow\ObjectManagement\ObjectManagerInterface;
 
 class ConsoleStorage implements ThrowableStorageInterface
 {
-
     /**
      * @var false|resource
      */
