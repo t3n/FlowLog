@@ -92,7 +92,7 @@ Now you are able to use it:
 
 ```php
 /**
- * @var Neos\Flow\Log\Psr\Logger
+ * @var Psr\Log\LoggerInterface
  */
 protected $logger;
 
