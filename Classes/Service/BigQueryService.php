@@ -6,15 +6,19 @@ namespace t3n\FlowLog\Service;
 
 use Google\Cloud\BigQuery\BigQueryClient;
 use Google\Cloud\BigQuery\Dataset;
+use Google\Cloud\BigQuery\Table;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Exception;
 
+/**
+ * @Flow\Scope("singleton")
+ */
 class BigQueryService
 {
     /**
      * @Flow\InjectConfiguration(package="t3n.FlowLog", path="bigQuery")
      *
-     * @var array
+     * @var mixed[]
      */
     protected $settings;
 
@@ -36,7 +40,7 @@ class BigQueryService
         return $this->bigQueryClient;
     }
 
-    public function getTable()
+    public function getTable(): Table
     {
         $dataset = $this->getDataset();
         $tableId = $this->settings['table'];
@@ -60,6 +64,9 @@ class BigQueryService
         return $this->getClient()->dataset($this->settings['dataset']);
     }
 
+    /**
+     * @return mixed[]
+     */
     protected function getTableSchema(): array
     {
         return [

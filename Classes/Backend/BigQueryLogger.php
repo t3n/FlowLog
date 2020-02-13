@@ -31,11 +31,6 @@ class BigQueryLogger extends AbstractBackend
      */
     protected $loggerName;
 
-    public function __construct($options = [])
-    {
-        parent::__construct($options);
-    }
-
     public function open(): void
     {
         $this->bigQueryService->getTable();
