@@ -48,7 +48,6 @@ Neos:
       psr3:
         'Neos\Flow\Log\PsrLoggerFactory':
           bigQueryLogger:
-            default:
-              class: 't3n\FlowLog\Backend\BigQueryLogger'
-              options:
-                loggerName: 'bigQueryLogger'
+            class: 't3n\FlowLog\Backend\BigQueryLogger'
+            options:
+              loggerName: 'bigQueryLogger'
