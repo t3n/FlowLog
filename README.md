@@ -61,10 +61,9 @@ Neos:
       psr3:
         'Neos\Flow\Log\PsrLoggerFactory':
           bigQueryLogger:
-            default:
-              class: 't3n\FlowLog\Backend\BigQueryLogger'
-              options:
-                loggerName: 'applicationXyImportLogger'
+            class: 't3n\FlowLog\Backend\BigQueryLogger'
+            options:
+              loggerName: 'applicationXyImportLogger'
 ```
 
 You can create as many loggers as you want. This is really usefull if you want to "split" your logs in your BigQueryTable. E.g. one Logger for Imports, one for User-Requests, etc.
