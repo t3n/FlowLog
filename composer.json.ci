@@ -6,8 +6,8 @@
     "bin-dir": "bin"
   },
   "require": {
-    "neos/flow": "~6.0",
-    "neos/buildessentials": "~6.0",
+    "neos/flow": "~7.0",
+    "neos/buildessentials": "~7.0",
     "t3n/flow-log": "@dev",
     "t3n/coding-standard": "~1.1"
   },
