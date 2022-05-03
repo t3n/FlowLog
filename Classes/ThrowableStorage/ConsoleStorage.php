@@ -115,13 +115,11 @@ class ConsoleStorage implements ThrowableStorageInterface
             return [];
         }
         $request = $requestHandler->getHttpRequest();
-        $response = $requestHandler->getHttpResponse();
 
         return [
             'method' => $request->getMethod(),
             'url' => (string) $request->getUri(),
             'userAgent' => $request->getHeader('User-Agent')[0],
-            'responseStatusCode' => $response->getStatusCode(),
         ];
     }
 
