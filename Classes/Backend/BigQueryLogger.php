@@ -36,8 +36,12 @@ class BigQueryLogger extends AbstractBackend
     /**
      * @param mixed $additionalData A variable containing more information about the event to be logged
      */
-    public function append(string $message, int $severity = LOG_INFO, $additionalData = [], ?string $packageKey = null, ?string $className = null, ?string $methodName = null): void
+    public function append(string $message, int $severity = LOG_INFO, $additionalData = null, ?string $packageKey = null, ?string $className = null, ?string $methodName = null): void
     {
+        if ($additionalData === null) {
+            $additionalData = [];
+        }
+
         if ($packageKey !== null) {
             $additionalData['packageKey'] = $packageKey;
         }
@@ -56,7 +60,7 @@ class BigQueryLogger extends AbstractBackend
             'version' => $this->serviceContext['version'],
             'severity' => $severity,
             'message' => $message,
-            'additionalData' => json_encode($additionalData),
+            'additionalData' => json_encode($additionalData ?: new \stdClass()),
             'date' => new Date(new \DateTime('now')),
             'datetime' => new \DateTime('now')
         ];
