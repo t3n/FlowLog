@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace t3n\FlowLog\Backend;
 
@@ -9,7 +10,6 @@ use Neos\Flow\Log\Backend\ConsoleBackend;
 
 class JSONConsoleLogger extends ConsoleBackend
 {
-
     /**
      * @Flow\InjectConfiguration(package="t3n.FlowLog.serviceContext")
      *
@@ -32,7 +32,10 @@ class JSONConsoleLogger extends ConsoleBackend
         ];
     }
 
-    public function append(string $message, int $severity = LOG_INFO, $additionalData = null, string $packageKey = null, string $className = null, string $methodName = null): void
+    /**
+     * @param mixed $additionalData A variable containing more information about the event to be logged
+     */
+    public function append(string $message, int $severity = LOG_INFO, $additionalData = null, string $packageKey, string $className, string $methodName): void
     {
         if ($severity > $this->severityThreshold) {
             return;
@@ -83,7 +86,7 @@ class JSONConsoleLogger extends ConsoleBackend
             $output = json_encode($data);
         } finally {
             if (is_resource($this->streamHandle)) {
-                fputs($this->streamHandle, $output . PHP_EOL);
+                fwrite($this->streamHandle, $output . PHP_EOL);
             }
         }
     }
