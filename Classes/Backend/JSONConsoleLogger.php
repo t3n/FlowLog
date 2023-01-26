@@ -37,7 +37,6 @@ class JSONConsoleLogger extends ConsoleBackend
      */
     public function append(string $message, int $severity = LOG_INFO, $additionalData = null, ?string $packageKey = null, ?string $className = null, ?string $methodName = null): void
     {
-
         if ($severity > $this->severityThreshold) {
             return;
         }
