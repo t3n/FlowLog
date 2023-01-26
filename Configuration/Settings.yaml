@@ -52,3 +52,6 @@ Neos:
               class: 't3n\FlowLog\Backend\BigQueryLogger'
               options:
                 loggerName: 'bigQueryLogger'
+          jsonConsoleLogger:
+            default:
+              class: 't3n\FlowLog\Backend\JSONConsoleLogger'
