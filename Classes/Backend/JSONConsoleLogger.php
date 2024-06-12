@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace t3n\FlowLog\Backend;
 
-use Google\Cloud\BigQuery\Date;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Log\Backend\ConsoleBackend;
 
@@ -33,16 +32,25 @@ class JSONConsoleLogger extends ConsoleBackend
     }
 
     /**
+     * Appends the given message along with the additional information into the log.
+     *
+     * @param string $message The message to log
+     * @param integer $severity One of the LOG_* constants
      * @param mixed $additionalData A variable containing more information about the event to be logged
+     * @param string $packageKey Key of the package triggering the log (determined automatically if not specified)
+     * @param string $className Name of the class triggering the log (determined automatically if not specified)
+     * @param string $methodName Name of the method triggering the log (determined automatically if not specified)
+     * @return void
+     * @api
      */
     public function append(
-        string $message,
-        int $severity = LOG_INFO,
+        $message,
+        $severity = LOG_INFO,
         $additionalData = null,
-        ?string $packageKey = null,
-        ?string $className = null,
-        ?string $methodName = null
-    ): void {
+        $packageKey = null,
+        $className = null,
+        $methodName = null
+    ) {
         if ($severity > $this->severityThreshold) {
             return;
         }
@@ -69,7 +77,7 @@ class JSONConsoleLogger extends ConsoleBackend
                 'version' => $this->serviceContext['version'],
                 'message' => $message,
                 'additionalData' => json_encode($additionalData, JSON_THROW_ON_ERROR),
-                'date' => new Date(new \DateTime('now')),
+                'date' => (new \DateTime('now'))->format('Y-m-d'),
                 'datetime' => new \DateTime('now')
             ];
             $output = json_encode($data);
@@ -86,7 +94,7 @@ class JSONConsoleLogger extends ConsoleBackend
                     ],
                     'stackTrace' => $e->getTraceAsString()
                 ],
-                'date' => new Date(new \DateTime('now')),
+                'date' => (new \DateTime('now'))->format('Y-m-d'),
                 'datetime' => new \DateTime('now')
             ];
             $output = json_encode($data);
