@@ -4,4 +4,18 @@ t3n:
       service: 'flow-app'
       version: 'master'
 
-
+Neos:
+  Flow:
+    log:
+      psr3:
+        'Neos\Flow\Log\PsrLoggerFactory':
+          bigQueryLogger:
+            default:
+              class: 't3n\FlowLog\Backend\BigQueryLogger'
+              options:
+                loggerName: 'bigQueryLogger'
+          jsonConsoleLogger:
+            default:
+              class: 't3n\FlowLog\Backend\JSONConsoleLogger'
+              options:
+                loggerName: 'jsonConsoleLogger'
