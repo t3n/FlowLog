@@ -1,7 +1,7 @@
 version: 2.1
 
 aliases:
-  - &ci-build-image quay.io/yeebase/ci-build:7.3
+  - &ci-build-image t3nde/ci-build:7.3
   - &workspace_root ~/workspace
 
   - &save_composer_cache
