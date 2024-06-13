@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace t3n\FlowLog\Backend;
 
-use Google\Cloud\BigQuery\Date;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Log\Backend\ConsoleBackend;
 
@@ -62,12 +61,12 @@ class JSONConsoleLogger extends ConsoleBackend
                 'service' => $this->serviceContext['service'],
                 'version' => $this->serviceContext['version'],
                 'message' => $message,
-                'additionalData' => json_encode($additionalData, JSON_THROW_ON_ERROR),
-                'date' => new Date(new \DateTime('now')),
+                'additionalData' => $additionalData,
+                'date' => (new \DateTime('now'))->format('Y-m-d'),
                 'datetime' => new \DateTime('now')
             ];
             $output = json_encode($data);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $data = [
                 'severity' => $this->severityLabels[LOG_WARNING],
                 'service' => $this->serviceContext['service'],
@@ -80,7 +79,7 @@ class JSONConsoleLogger extends ConsoleBackend
                     ],
                     'stackTrace' => $e->getTraceAsString()
                 ],
-                'date' => new Date(new \DateTime('now')),
+                'date' => (new \DateTime('now'))->format('Y-m-d'),
                 'datetime' => new \DateTime('now')
             ];
             $output = json_encode($data);
