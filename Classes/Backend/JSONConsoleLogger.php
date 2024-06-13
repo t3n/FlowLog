@@ -76,7 +76,7 @@ class JSONConsoleLogger extends ConsoleBackend
                 'service' => $this->serviceContext['service'],
                 'version' => $this->serviceContext['version'],
                 'message' => $message,
-                'additionalData' => json_encode($additionalData, JSON_THROW_ON_ERROR),
+                'additionalData' => $additionalData,
                 'date' => (new \DateTime('now'))->format('Y-m-d'),
                 'datetime' => new \DateTime('now')
             ];
