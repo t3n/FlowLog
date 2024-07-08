@@ -58,8 +58,8 @@ class JSONConsoleLogger extends ConsoleBackend
         try {
             $data = [
                 'severity' => $severityLabel,
-                'service' => $this->serviceContext['service'],
-                'version' => $this->serviceContext['version'],
+                'service' => $this->serviceContext['service'] ?? '',
+                'version' => $this->serviceContext['version'] ?? '',
                 'message' => $message,
                 'additionalData' => $additionalData,
                 'date' => (new \DateTime('now'))->format('Y-m-d'),
@@ -69,8 +69,8 @@ class JSONConsoleLogger extends ConsoleBackend
         } catch (\Exception $e) {
             $data = [
                 'severity' => $this->severityLabels[LOG_WARNING],
-                'service' => $this->serviceContext['service'],
-                'version' => $this->serviceContext['version'],
+                'service' => $this->serviceContext['service'] ?? '',
+                'version' => $this->serviceContext['version'] ?? '',
                 'message' => 'Could not decode additional data of log message.',
                 'additionalData' => [
                     'previousLog' => [
