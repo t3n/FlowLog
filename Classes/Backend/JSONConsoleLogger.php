@@ -66,7 +66,7 @@ class JSONConsoleLogger extends ConsoleBackend
                 'datetime' => new \DateTime('now')
             ];
             $output = json_encode($data);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $data = [
                 'severity' => $this->severityLabels[LOG_WARNING],
                 'service' => $this->serviceContext['service'] ?? '',

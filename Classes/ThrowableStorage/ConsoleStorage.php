@@ -55,10 +55,22 @@ class ConsoleStorage implements ThrowableStorageInterface
 
         $serviceContext = $configurationManager->getConfiguration(ConfigurationManager::CONFIGURATION_TYPE_SETTINGS, 't3n.FlowLog.serviceContext');
 
+        /**
+         * If the message is already json encoded, decode it, else use plain message
+         * since we want to ensure that the message is not json encoded twice
+         */
+        json_decode($throwable->getMessage());
+        if (json_last_error() === JSON_ERROR_NONE) {
+            $message = json_decode($throwable->getMessage(), true);
+        } else {
+            $message = $throwable->getMessage();
+        }
+
         $data = [
             'eventTime' => (new \DateTime('now'))->format(DATE_RFC3339),
             'serviceContext' => $serviceContext,
-            'message' => sprintf('PHP Warning: %s' . PHP_EOL . 'Stack trace:' . PHP_EOL . '%s', $throwable->getMessage(), $throwable->getTraceAsString()),
+            'message' => $message,
+            'stackTrace' => $throwable->getTrace(),
             'context' => [
                 'httpRequest' => $this->getHttpRequestContext(),
                 'reportLocation' => [
