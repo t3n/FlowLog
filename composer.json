@@ -1,4 +1,5 @@
 {
+    "abandoned": true,
     "description": "Small package that provides several Logger for the Flow Framework",
     "type": "neos-package",
     "name": "t3n/flow-log",
