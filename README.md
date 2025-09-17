@@ -1,8 +1,11 @@
+> [!WARNING]
+> **This plugin is no longer being maintained and there is no superseding package at this time**
+
 # t3n.FlowLog
 
 This package adds a few helper to log Flow Messages.
 
-🔧 Still Work in Progress 🔧
+~~🔧 Still Work in Progress 🔧~~
 
 ## ConsoleStorage
 
